@@ -1,0 +1,14 @@
+providers:
+  company_waterfall: []
+  contact_waterfall: []
+
+messaging:
+  enabled: true
+  strategy: cold_email_sequence
+
+sinks:
+  enabled:
+    - hubspot
+  hubspot:
+    enabled: true
+    access_token: ${HUBSPOT_ACCESS_TOKEN}

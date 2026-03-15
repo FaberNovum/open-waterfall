@@ -1,0 +1,32 @@
+providers:
+  company_waterfall: []
+  contact_waterfall: []
+  api_keys: {}
+  settings: {}
+
+pipeline:
+  merge_results: true
+  skip_research: false
+  skip_messaging: false
+
+messaging:
+  enabled: true
+  strategy: cold_email_sequence
+  sender:
+    name: Example Sender
+    company: Example Company
+  value_prop: Example value proposition
+
+sinks:
+  enabled:
+    - csv
+    - hubspot
+  csv:
+    output_path: ./output/outbound-hubspot.csv
+  hubspot:
+    enabled: true
+    access_token: ${HUBSPOT_ACCESS_TOKEN}
+    create_contacts: true
+    create_companies: true
+    workflow:
+      auto_enroll: false

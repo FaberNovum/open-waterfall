@@ -1,0 +1,11 @@
+providers:
+  company_waterfall: []
+  contact_waterfall: []
+
+pipeline:
+  merge_results: true
+
+sinks:
+  enabled:
+    - csv
+

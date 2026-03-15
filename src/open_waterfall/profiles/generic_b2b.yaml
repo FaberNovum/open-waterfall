@@ -1,0 +1,57 @@
+providers:
+  company_waterfall: []
+  contact_waterfall: []
+  api_keys: {}
+  settings: {}
+
+pipeline:
+  merge_results: true
+  skip_research: true
+  skip_messaging: true
+
+scoring:
+  enabled: true
+  profile: generic_b2b
+  thresholds:
+    high_touch: 80
+    standard: 50
+  weights:
+    industry_match: 30
+    revenue_fit: 25
+    employee_fit: 20
+    tech_match: 25
+  icp:
+    industries:
+      - SaaS
+      - Technology
+      - Software
+    min_revenue: 1000000
+    max_revenue: 100000000
+    min_employees: 50
+    max_employees: 1000
+    required_tech:
+      - Salesforce
+      - HubSpot
+      - Marketo
+
+personas:
+  enabled: true
+  rules:
+    operations:
+      title_keywords:
+        - operations
+        - facilities
+      department_keywords:
+        - operations
+    finance:
+      title_keywords:
+        - finance
+        - controller
+      department_keywords:
+        - finance
+
+sinks:
+  enabled:
+    - csv
+  csv:
+    output_path: ./output/enriched.csv
