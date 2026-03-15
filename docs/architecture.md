@@ -3,6 +3,7 @@
 ## Layers
 
 - `core`: models, provider interfaces, pipeline, config, IO, ops
+- `sourcing`: provider-led lead search before CSV exists
 - `scoring`: score and persona classification engines
 - `research`: optional AI context generation
 - `messaging`: optional outbound generation
@@ -25,6 +26,6 @@
 Each command follows the same high-level pattern:
 
 1. Load config.
-2. Read CSV input and hydrate lead objects.
+2. Read CSV input or source lead objects from a configured provider.
 3. Run only the enabled stages for that command.
 4. Write outputs to CSV or configured sinks.

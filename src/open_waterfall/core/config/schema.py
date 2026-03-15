@@ -68,6 +68,23 @@ class ResearchConfig(BaseModel):
     ai: AIConfig = Field(default_factory=AIConfig)
 
 
+class SourceFiltersConfig(BaseModel):
+    titles: list[str] = Field(default_factory=list)
+    seniorities: list[str] = Field(default_factory=list)
+    locations: list[str] = Field(default_factory=list)
+    employee_ranges: list[str] = Field(default_factory=list)
+    email_status: list[str] = Field(default_factory=list)
+
+
+class SourceConfig(BaseModel):
+    enabled: bool = False
+    provider: Optional[str] = None
+    max_results: int = 25
+    page_size: int = 25
+    min_score: Optional[float] = None
+    filters: SourceFiltersConfig = Field(default_factory=SourceFiltersConfig)
+
+
 class SenderConfig(BaseModel):
     name: str = "Example Sender"
     company: str = "Example Company"
@@ -120,6 +137,7 @@ class OpenWaterfallConfig(BaseModel):
     pipeline: PipelineConfig = Field(default_factory=PipelineConfig)
     scoring: ScoringConfig = Field(default_factory=ScoringConfig)
     personas: PersonasConfig = Field(default_factory=PersonasConfig)
+    source: SourceConfig = Field(default_factory=SourceConfig)
     research: ResearchConfig = Field(default_factory=ResearchConfig)
     messaging: MessagingConfig = Field(default_factory=MessagingConfig)
     sinks: SinksConfig = Field(default_factory=SinksConfig)

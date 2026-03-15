@@ -1,0 +1,68 @@
+providers:
+  company_waterfall:
+    - apollo
+  contact_waterfall: []
+
+pipeline:
+  merge_results: true
+  skip_research: true
+  skip_messaging: false
+
+source:
+  enabled: true
+  provider: apollo
+  max_results: 25
+  page_size: 25
+  min_score: 50
+  filters:
+    titles:
+      - VP Sales
+      - Head of Sales
+    seniorities:
+      - vp
+      - director
+    locations:
+      - United States
+    employee_ranges:
+      - 51,200
+      - 201,500
+    email_status:
+      - verified
+
+scoring:
+  enabled: true
+  profile: generic_b2b
+  thresholds:
+    high_touch: 80
+    standard: 50
+  weights:
+    industry_match: 30
+    revenue_fit: 25
+    employee_fit: 20
+    tech_match: 25
+  icp:
+    industries:
+      - SaaS
+      - Technology
+      - Software
+    min_revenue: 1000000
+    max_revenue: 100000000
+    min_employees: 50
+    max_employees: 1000
+    required_tech:
+      - Salesforce
+      - HubSpot
+
+messaging:
+  enabled: true
+  strategy: cold_email_sequence
+  sender:
+    name: Example Sender
+    company: Example Company
+  value_prop: Example value proposition
+
+sinks:
+  enabled:
+    - csv
+  csv:
+    output_path: ./output/sourced.csv

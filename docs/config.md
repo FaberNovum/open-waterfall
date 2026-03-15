@@ -8,6 +8,7 @@ Top-level sections:
 - `pipeline`
 - `scoring`
 - `personas`
+- `source`
 - `research`
 - `messaging`
 - `sinks`
@@ -30,6 +31,19 @@ Top-level sections:
 - `scoring.profile`: shipped neutral profile name
 - `scoring.weights` and `scoring.thresholds`: scoring behavior
 - `personas.rules`: persona keyword/rule configuration
+
+## Source
+
+- `enabled`: turn provider-led sourcing on or off
+- `provider`: current first-party source name, currently `apollo`
+- `max_results`: max leads to keep after sourcing
+- `page_size`: provider page size
+- `min_score`: optional post-score cutoff for keeping sourced leads
+- `filters.titles`: source-side title filters
+- `filters.seniorities`: source-side seniority filters
+- `filters.locations`: source-side company/person location filters
+- `filters.employee_ranges`: source-side employee count range filters
+- `filters.email_status`: source-side email quality filters
 
 ## Research
 

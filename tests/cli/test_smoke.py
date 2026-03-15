@@ -9,4 +9,5 @@ def test_cli_help() -> None:
 
     assert result.exit_code == 0
     assert "Open Waterfall CLI" in result.output
-
+    assert "search" in result.output
+    assert "demo" in result.output

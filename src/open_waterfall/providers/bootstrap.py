@@ -30,7 +30,7 @@ def default_provider_registry() -> ProviderRegistry:
     return registry
 
 
-def _get_api_key(config: OpenWaterfallConfig, provider: str) -> str:
+def get_api_key(config: OpenWaterfallConfig, provider: str) -> str:
     key = config.providers.api_keys.get(provider, "")
     if key and not str(key).startswith("${"):
         return key
@@ -47,7 +47,7 @@ def build_enrichers(config: OpenWaterfallConfig) -> tuple[list, list]:
 
     for provider in config.providers.company_waterfall:
         if provider == "website":
-            openai_key = _get_api_key(config, "openai")
+            openai_key = get_api_key(config, "openai")
             if not openai_key:
                 continue
             settings = provider_settings.get("website", {})
@@ -64,7 +64,7 @@ def build_enrichers(config: OpenWaterfallConfig) -> tuple[list, list]:
             continue
 
         if provider == "linkedin":
-            phantombuster_key = _get_api_key(config, "phantombuster")
+            phantombuster_key = get_api_key(config, "phantombuster")
             settings = provider_settings.get("linkedin", {})
             if not phantombuster_key or not settings.get("company_phantom_id"):
                 continue
@@ -79,14 +79,14 @@ def build_enrichers(config: OpenWaterfallConfig) -> tuple[list, list]:
             company_enrichers.append(linkedin_instance)
             continue
 
-        api_key = _get_api_key(config, provider)
+        api_key = get_api_key(config, provider)
         if not api_key:
             continue
         company_enrichers.append(registry.create(provider, api_key=api_key))
 
     for provider in config.providers.contact_waterfall:
         if provider == "linkedin":
-            phantombuster_key = _get_api_key(config, "phantombuster")
+            phantombuster_key = get_api_key(config, "phantombuster")
             settings = provider_settings.get("linkedin", {})
             if not phantombuster_key or not settings.get("profile_phantom_id"):
                 continue
@@ -104,10 +104,9 @@ def build_enrichers(config: OpenWaterfallConfig) -> tuple[list, list]:
         if provider == "website":
             continue
 
-        api_key = _get_api_key(config, provider)
+        api_key = get_api_key(config, provider)
         if not api_key:
             continue
         contact_enrichers.append(registry.create(provider, api_key=api_key))
 
     return company_enrichers, contact_enrichers
-
