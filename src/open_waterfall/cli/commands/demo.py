@@ -19,10 +19,9 @@ def demo_command(ctx: click.Context) -> None:
     root = _repo_root()
     enrich_input = root / "examples" / "enrich_to_csv" / "leads.csv"
     enrich_config = root / "examples" / "enrich_to_csv" / "config.yaml"
-    outbound_input = root / "examples" / "outbound_to_csv" / "leads.csv"
     outbound_config = root / "examples" / "outbound_to_csv" / "config.yaml"
 
-    required_paths = [enrich_input, enrich_config, outbound_input, outbound_config]
+    required_paths = [enrich_input, enrich_config, outbound_config]
     missing_paths = [str(path) for path in required_paths if not path.exists()]
     if missing_paths:
         raise click.ClickException(
@@ -32,4 +31,4 @@ def demo_command(ctx: click.Context) -> None:
     click.echo("Running local enrich walkthrough...")
     ctx.invoke(enrich_command, input_csv=str(enrich_input), config_path=str(enrich_config))
     click.echo("Running local outbound walkthrough...")
-    ctx.invoke(message_command, input_csv=str(outbound_input), config_path=str(outbound_config))
+    ctx.invoke(message_command, input_csv=str(Path("output/enriched.csv")), config_path=str(outbound_config))

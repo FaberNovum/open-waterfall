@@ -144,16 +144,14 @@ def test_demo_command_runs_local_examples(tmp_path: Path) -> None:
     repo_root = tmp_path / "demo-repo"
     (repo_root / "examples" / "enrich_to_csv").mkdir(parents=True)
     (repo_root / "examples" / "outbound_to_csv").mkdir(parents=True)
+    (tmp_path / "output").mkdir()
 
     (repo_root / "examples" / "enrich_to_csv" / "leads.csv").write_text(
         "first_name,last_name,domain,company_name\nJane,Doe,example.com,Example\n"
     )
     (repo_root / "examples" / "enrich_to_csv" / "config.yaml").write_text(
-        "providers:\n  company_waterfall: []\n  contact_waterfall: []\n"
+        "providers:\n  company_waterfall: [demo]\n  contact_waterfall: [demo]\n"
         "sinks:\n  enabled: [csv]\n  csv:\n    output_path: ./output/enriched.csv\n"
-    )
-    (repo_root / "examples" / "outbound_to_csv" / "leads.csv").write_text(
-        "first_name,last_name,domain,company_name\nJane,Doe,example.com,Example\n"
     )
     (repo_root / "examples" / "outbound_to_csv" / "config.yaml").write_text(
         "providers:\n  company_waterfall: []\n  contact_waterfall: []\n"

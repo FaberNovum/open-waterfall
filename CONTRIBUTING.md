@@ -8,6 +8,12 @@ source .venv/bin/activate
 pip install -e ".[dev]"
 ```
 
+Before changing behavior, read:
+
+- `README.md` for the onboarding contract
+- `docs/architecture.md` for the system map
+- `docs/config.md` and `docs/profiles.md` for config semantics
+
 ## Tests
 
 ```bash
@@ -34,3 +40,4 @@ ruff check .
 - Keep `core` free of CRM and outbound-specific assumptions.
 - Treat messaging as optional, even though it ships in v1.
 - Keep shipped profiles generic and free of private operator defaults.
+- Keep examples runnable from a clean checkout with no private context.

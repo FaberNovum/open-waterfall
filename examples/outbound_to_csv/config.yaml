@@ -1,19 +1,6 @@
-providers:
-  company_waterfall: []
-  contact_waterfall: []
-
-pipeline:
-  merge_results: true
-  skip_research: false
-  skip_messaging: false
-
-messaging:
-  enabled: true
-  strategy: cold_email_sequence
-  sender:
-    name: Example Sender
-    company: Example Company
-  value_prop: Example value proposition
+profiles:
+  - generic_b2b
+  - outbound_csv
 
 sinks:
   enabled:

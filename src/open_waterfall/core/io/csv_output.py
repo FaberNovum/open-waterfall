@@ -9,6 +9,16 @@ from open_waterfall.core.models.company import Company
 from open_waterfall.core.models.contact import Contact
 
 
+def _has_value(value: object) -> bool:
+    if value is None:
+        return False
+    if isinstance(value, str):
+        return value.strip() != ""
+    if isinstance(value, list):
+        return len(value) > 0
+    return True
+
+
 def export_contacts_to_csv(
     contacts: list[Contact],
     companies: Optional[dict[str, Company]],
@@ -43,6 +53,14 @@ def export_contacts_to_csv(
                 "website_context": company.website_context if company else None,
             }
         )
+
+    if rows:
+        columns_to_keep = [
+            column_name
+            for column_name in rows[0].keys()
+            if any(_has_value(row.get(column_name)) for row in rows)
+        ]
+        rows = [{column_name: row.get(column_name) for column_name in columns_to_keep} for row in rows]
 
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     pd.DataFrame(rows).to_csv(output_path, index=False)

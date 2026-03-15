@@ -4,7 +4,7 @@ This example is optional. The default project story is still file-first.
 
 ## Prerequisites
 
-- HubSpot private app token exported as `HUBSPOT_ACCESS_TOKEN`
+- HubSpot private app token exported as `HUBSPOT_ACCESS_TOKEN` or placed in `.env`
 - HubSpot dependency installed with `pip install -e ".[dev,hubspot]"`
 
 ## Run

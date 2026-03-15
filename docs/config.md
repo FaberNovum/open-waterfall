@@ -4,6 +4,7 @@ Profiles live under `src/open_waterfall/profiles/`.
 
 Top-level sections:
 
+- `profile` or `profiles`
 - `providers`
 - `pipeline`
 - `scoring`
@@ -13,6 +14,26 @@ Top-level sections:
 - `messaging`
 - `sinks`
 - `runtime`
+
+## Profile Loading
+
+- `profile`: load one shipped or local YAML profile before validating the config
+- `profiles`: load multiple profiles in order and merge them left to right
+- local config values override anything loaded from profiles
+
+Example:
+
+```yaml
+profiles:
+  - generic_b2b
+  - outbound_csv
+
+providers:
+  company_waterfall:
+    - demo
+  contact_waterfall:
+    - demo
+```
 
 ## Providers
 
@@ -24,11 +45,11 @@ Top-level sections:
 ## Pipeline
 
 - `merge_results`: merge partial provider results when multiple enrichers succeed
-- `skip_company`, `skip_contact`, `skip_research`, `skip_messaging`, `skip_sinks`: disable stages explicitly
+- `skip_company`, `skip_contact`, `skip_research`, `skip_messaging`: disable stages explicitly
 
 ## Scoring And Personas
 
-- `scoring.profile`: shipped neutral profile name
+- `scoring.profile`: descriptive label for the active scoring rules
 - `scoring.weights` and `scoring.thresholds`: scoring behavior
 - `personas.rules`: persona keyword/rule configuration
 
@@ -82,3 +103,9 @@ Common variables:
 - `HUBSPOT_ACCESS_TOKEN`
 
 Config files support basic `${ENV_VAR}` substitution at load time.
+
+The loader automatically reads the nearest project `.env` file before substitution. Shell-exported variables keep priority over `.env` values.
+
+## Runtime
+
+`runtime.*` exists for extension work and lower-level integrations. The stock CLI commands do not currently use those settings directly.

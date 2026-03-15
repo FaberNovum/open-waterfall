@@ -1,14 +1,14 @@
 # Outbound to CSV
 
-This is the recommended full walkthrough for a new user. It stays file-first, requires no API keys, and proves outbound asset generation is functioning.
+This is the second half of the recommended walkthrough. It takes the enriched demo output and generates outbound assets from it.
+
+The example uses `profiles: [generic_b2b, outbound_csv]`, so it inherits the shared scoring defaults and layers outbound generation on top.
 
 ## Run
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -e ".[dev]"
-open-waterfall message examples/outbound_to_csv/leads.csv --config examples/outbound_to_csv/config.yaml
+open-waterfall enrich examples/enrich_to_csv/leads.csv --config examples/enrich_to_csv/config.yaml
+open-waterfall message output/enriched.csv --config examples/outbound_to_csv/config.yaml
 ```
 
 Expected CLI output:

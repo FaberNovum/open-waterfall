@@ -43,7 +43,6 @@ class PipelineConfig(BaseModel):
     skip_contact: bool = False
     skip_research: bool = False
     skip_messaging: bool = False
-    skip_sinks: bool = False
 
 
 class ScoringConfig(BaseModel):
@@ -51,6 +50,7 @@ class ScoringConfig(BaseModel):
     weights: dict = Field(default_factory=dict)
     thresholds: dict = Field(default_factory=lambda: {"high_touch": 80, "standard": 50})
     profile: str = "generic_b2b"
+    icp: dict = Field(default_factory=dict)
 
 
 class PersonasConfig(BaseModel):

@@ -1,11 +1,11 @@
-providers:
-  company_waterfall: []
-  contact_waterfall: []
+profile: generic_b2b
 
-pipeline:
-  merge_results: true
+providers:
+  company_waterfall:
+    - demo
+  contact_waterfall:
+    - demo
 
 sinks:
   enabled:
     - csv
-

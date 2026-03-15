@@ -25,9 +25,15 @@ Install HubSpot support only if you need CRM sync:
 pip install -e ".[dev,hubspot]"
 ```
 
-## Start Here
+## New Here
 
-If you are new to the repo, run the built-in demo:
+If you are new to the repo, use this order:
+
+1. Run the no-credentials demo.
+2. Skim the command guide and system map below.
+3. Move to the example that matches your workflow.
+
+The built-in demo is the first command to run:
 
 ```bash
 open-waterfall demo
@@ -54,10 +60,21 @@ Expected output:
 
 ```text
 Running local enrich walkthrough...
-enriched 1 rows using 0 company providers and 0 contact providers -> output/enriched.csv
+enriched 1 rows using 1 company providers and 1 contact providers -> output/enriched.csv
 Running local outbound walkthrough...
 generated outbound assets for 1 rows using strategy=cold_email_sequence -> output/outbound.csv
 ```
+
+## System Map
+
+- `src/open_waterfall/core/`: shared models, config loading, CSV IO, and pipeline primitives
+- `src/open_waterfall/providers/`: enrichment providers such as Apollo, Clearbit, Hunter, and the local `demo` provider
+- `src/open_waterfall/sourcing/`: lead sources that fetch rows before a CSV exists
+- `src/open_waterfall/research/`: optional context modules layered onto enriched leads
+- `src/open_waterfall/messaging/`: outbound generators for email and LinkedIn assets
+- `src/open_waterfall/sinks/`: CSV and CRM delivery
+- `src/open_waterfall/profiles/`: reusable config layers you can compose in your own YAML
+- `examples/`: runnable workflows that show the intended setup path
 
 ## Command Guide
 
@@ -69,6 +86,34 @@ generated outbound assets for 1 rows using strategy=cold_email_sequence -> outpu
 | `score` | an input CSV | applies persona classification and scoring | your CSV already has enough company data |
 | `message` | an input CSV | generates research and outbound assets | you want email/LinkedIn copy for existing rows |
 | `sync` | an input CSV | writes rows to configured sinks | you want HubSpot or other sink delivery |
+
+## Profiles
+
+Shipped profiles are real config layers, not just labels. Use one base profile with `profile:` or compose multiple with `profiles:`.
+
+```yaml
+profiles:
+  - generic_b2b
+  - outbound_csv
+
+providers:
+  company_waterfall:
+    - demo
+  contact_waterfall:
+    - demo
+```
+
+Profiles are loaded first, then your local config overrides them.
+
+## Credentials
+
+Provider-backed examples expect environment variables. The config loader automatically reads the nearest project `.env`, so the usual path is:
+
+```bash
+cp .env.example .env
+```
+
+Fill in only the keys you need. Shell-exported variables still win over values in `.env`.
 
 ## Provider-Led Search
 
@@ -94,14 +139,8 @@ When you are using `enrich`, `score`, `message`, or `sync`, the minimum useful c
 
 ## Expected Artifacts
 
-- `output/enriched.csv` with one lead row
-- `output/outbound.csv` with fallback email sequence and LinkedIn message columns populated
-
-## Profiles
-
-- `generic_b2b.yaml`: neutral enrichment and scoring defaults
-- `outbound_csv.yaml`: file-first outbound flow
-- `outbound_hubspot.yaml`: outbound plus optional HubSpot sync
+- `output/enriched.csv` with contact, company, and scoring fields populated
+- `output/outbound.csv` with outbound copy columns populated
 
 ## Local Examples
 
@@ -109,6 +148,12 @@ When you are using `enrich`, `score`, `message`, or `sync`, the minimum useful c
 - CSV-first outbound walkthrough: [examples/outbound_to_csv/README.md](examples/outbound_to_csv/README.md)
 - Apollo-first sourced leads walkthrough: [examples/search_apollo/README.md](examples/search_apollo/README.md)
 - Optional HubSpot walkthrough: [examples/outbound_hubspot/README.md](examples/outbound_hubspot/README.md)
+
+## Read Next
+
+- [docs/architecture.md](docs/architecture.md)
+- [docs/config.md](docs/config.md)
+- [docs/profiles.md](docs/profiles.md)
 
 ## Design Rules
 

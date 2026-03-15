@@ -7,6 +7,7 @@ from open_waterfall.core.config.schema import OpenWaterfallConfig
 from open_waterfall.core.providers import ProviderRegistry
 from open_waterfall.providers.apollo import ApolloEnricher
 from open_waterfall.providers.clearbit import ClearbitEnricher
+from open_waterfall.providers.demo import DemoEnricher
 from open_waterfall.providers.dropcontact import DropcontactEnricher
 from open_waterfall.providers.hunter import HunterEnricher
 from open_waterfall.providers.linkedin import LinkedInEnricher
@@ -20,6 +21,7 @@ def default_provider_registry() -> ProviderRegistry:
     registry = ProviderRegistry()
     registry.register("apollo", ApolloEnricher)
     registry.register("clearbit", ClearbitEnricher)
+    registry.register("demo", DemoEnricher)
     registry.register("dropcontact", DropcontactEnricher)
     registry.register("hunter", HunterEnricher)
     registry.register("linkedin", LinkedInEnricher)
@@ -46,6 +48,10 @@ def build_enrichers(config: OpenWaterfallConfig) -> tuple[list, list]:
     linkedin_instance: Optional[LinkedInEnricher] = None
 
     for provider in config.providers.company_waterfall:
+        if provider == "demo":
+            company_enrichers.append(registry.create("demo"))
+            continue
+
         if provider == "website":
             openai_key = get_api_key(config, "openai")
             if not openai_key:
@@ -85,6 +91,10 @@ def build_enrichers(config: OpenWaterfallConfig) -> tuple[list, list]:
         company_enrichers.append(registry.create(provider, api_key=api_key))
 
     for provider in config.providers.contact_waterfall:
+        if provider == "demo":
+            contact_enrichers.append(registry.create("demo"))
+            continue
+
         if provider == "linkedin":
             phantombuster_key = get_api_key(config, "phantombuster")
             settings = provider_settings.get("linkedin", {})

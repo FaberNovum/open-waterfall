@@ -4,7 +4,9 @@ This is the provider-led lead sourcing example. It uses Apollo to fetch leads fi
 
 ## Prerequisites
 
-- `APOLLO_API_KEY` exported in your shell or set in config
+- `APOLLO_API_KEY` exported in your shell or placed in `.env`
+
+The config loader automatically reads `.env`, so `cp .env.example .env` is the normal starting point.
 
 ## Run
 
